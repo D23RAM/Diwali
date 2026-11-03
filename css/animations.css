@@ -1,0 +1,21 @@
+/* Motion lives here so reduced-motion is handled in one place */
+.flame,.d-flame{transform-box:fill-box;transform-origin:50% 100%;animation:flicker 1.6s ease-in-out infinite alternate}
+.glow{animation:pulse 3s ease-in-out infinite}
+@keyframes flicker{0%{transform:scale(1,1) rotate(-1.5deg)}35%{transform:scale(.95,1.06) rotate(1.5deg)}70%{transform:scale(1.04,.96) rotate(-1deg)}100%{transform:scale(.97,1.04) rotate(1deg)}}
+@keyframes pulse{50%{opacity:.6}}
+
+/* Floating marigolds and stars (created in main.js) */
+.floaters{position:absolute;inset:0;pointer-events:none}
+.floaters span{position:absolute;bottom:-60px;animation:rise linear infinite;opacity:.8}
+@keyframes rise{to{transform:translateY(-115vh) rotate(360deg)}}
+
+/* Unlit diya: flame and glow hidden until lit */
+.diya-btn:not(.lit) .d-flame,.diya-btn:not(.lit) .d-glow{opacity:0}
+.diya-btn .d-flame,.diya-btn .d-glow{transition:opacity .6s}
+.wall li{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .floaters{display:none}
+}
