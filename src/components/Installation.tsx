@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X, Flame } from 'lucide-react'
 import Diya from './Diya'
-import { Diya as D, layout, countryName, flag } from '../lib/util'
+import { Diya as D, layout, byline } from '../lib/util'
 
 export default function Installation({ diyas, status, onLight }: { diyas: D[]; status: string; onLight: () => void }) {
   const [sel, setSel] = useState<D | null>(null)
@@ -29,7 +29,7 @@ export default function Installation({ diyas, status, onLight }: { diyas: D[]; s
           className="absolute inset-x-4 bottom-6 z-[200] mx-auto max-w-md rounded-[2rem] rounded-tl-md bg-cream p-6 text-plum shadow-2xl">
           <button onClick={() => setSel(null)} aria-label="Close wish" className="absolute right-3 top-3 rounded-full p-1 hover:bg-plum/10"><X size={20} /></button>
           <p className="font-display text-xl font-black">{sel.message ?? 'A quiet light, lit without words.'}</p>
-          <p className="mt-3 text-sm text-royal">{sel.country_code ? `${flag(sel.country_code)} ${countryName(sel.country_code)}` : 'Somewhere on Earth'} · {new Date(sel.created_at).toLocaleString()}</p>
+          <p className="mt-3 text-sm text-royal">{byline(sel)} · {new Date(sel.created_at).toLocaleString()}</p>
         </motion.div>)}</AnimatePresence>
       <button onClick={onLight} className="absolute right-6 top-28 z-[150] flex items-center gap-2 rounded-full bg-gold px-5 py-3 font-bold text-plum shadow-lg hover:bg-saffron"><Flame size={18} />Add yours</button>
     </section>

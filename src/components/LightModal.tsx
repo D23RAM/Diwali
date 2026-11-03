@@ -5,10 +5,10 @@ import Diya from './Diya'
 import { COUNTRIES, countryName, flag } from '../lib/util'
 
 type Phase = 'form' | 'saving' | 'done'
-export default function LightModal({ onClose, onLight, demo }: { onClose: () => void; onLight: (m: string, c: string) => Promise<string | null>; demo: boolean }) {
-  const [msg, setMsg] = useState(''); const [country, setCountry] = useState(''); const [phase, setPhase] = useState<Phase>('form'); const [err, setErr] = useState<string | null>(null)
+export default function LightModal({ onClose, onLight, demo }: { onClose: () => void; onLight: (m: string, c: string, n: string, anon: boolean) => Promise<string | null>; demo: boolean }) {
+  const [msg, setMsg] = useState(''); const [country, setCountry] = useState(''); const [name, setName] = useState(''); const [anon, setAnon] = useState(false); const [phase, setPhase] = useState<Phase>('form'); const [err, setErr] = useState<string | null>(null)
   useEffect(() => { const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose(); window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k) }, [onClose])
-  const submit = async () => { setPhase('saving'); setErr(null); const e = await onLight(msg, country); if (e) { setErr(e); setPhase('form') } else setPhase('done') }
+  const submit = async () => { setPhase('saving'); setErr(null); const e = await onLight(msg, country, name, anon); if (e) { setErr(e); setPhase('form') } else setPhase('done') }
   return (
     <div className="fixed inset-0 z-[300] grid place-items-center bg-plum/80 p-4 backdrop-blur-sm" onClick={onClose}>
       <motion.div role="dialog" aria-modal="true" aria-labelledby="mt" initial={{ scale: .9, opacity: 0, y: 30 }} animate={{ scale: 1, opacity: 1, y: 0 }} onClick={e => e.stopPropagation()}
@@ -25,8 +25,14 @@ export default function LightModal({ onClose, onLight, demo }: { onClose: () => 
             <label className="mt-4 block text-sm font-medium" htmlFor="msg">Your wish (optional)</label>
             <textarea id="msg" value={msg} onChange={e => setMsg(e.target.value)} maxLength={280} rows={3} placeholder="Peace, health, a friend’s return home…" className="mt-1 w-full rounded-2xl border-2 border-royal/30 bg-white p-3 focus:border-saffron" />
             <p className="text-right text-xs text-royal">{msg.length}/280</p>
-            <label className="block text-sm font-medium" htmlFor="cc">Country (optional)</label>
-            <select id="cc" value={country} onChange={e => setCountry(e.target.value)} className="mt-1 w-full rounded-2xl border-2 border-royal/30 bg-white p-3">
+            <fieldset className="mt-3"><legend className="text-sm font-medium">How should your diya appear?</legend>
+              <div className="mt-1 grid grid-cols-2 gap-2">{[{ v: false, t: 'Show my details', s: 'Name and country appear with your wish' }, { v: true, t: 'Stay anonymous', s: 'Shown as Anonymous, no country saved' }].map(o => (
+                <label key={String(o.v)} className={`cursor-pointer rounded-2xl border-2 p-3 text-sm focus-within:outline focus-within:outline-2 focus-within:outline-royal ${anon === o.v ? 'border-saffron bg-saffron/15' : 'border-royal/30'}`}>
+                  <input type="radio" name="vis" className="sr-only" checked={anon === o.v} onChange={() => setAnon(o.v)} /><b className="block">{o.t}</b>{o.s}</label>))}</div></fieldset>
+            {!anon && <><label className="mt-3 block text-sm font-medium" htmlFor="nm">First name (optional)</label>
+              <input id="nm" value={name} onChange={e => setName(e.target.value)} maxLength={40} className="mt-1 w-full rounded-2xl border-2 border-royal/30 bg-white p-3 focus:border-saffron" /></>}
+            <label className="mt-3 block text-sm font-medium" htmlFor="cc">Country (optional)</label>
+            <select id="cc" disabled={anon} value={country} onChange={e => setCountry(e.target.value)} className="mt-1 w-full rounded-2xl border-2 border-royal/30 bg-white p-3">
               <option value="">Prefer not to say</option>{COUNTRIES.map(c => <option key={c} value={c}>{flag(c)} {countryName(c)}</option>)}</select>
             {err && <p role="alert" className="mt-3 rounded-xl bg-pink/15 p-3 text-sm font-medium">{err}</p>}
             <button disabled={phase === 'saving'} className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-saffron py-3.5 text-lg font-bold text-plum hover:bg-gold disabled:opacity-60">

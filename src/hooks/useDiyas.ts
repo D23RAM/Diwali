@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { supabase, isDemo } from '../lib/supabase'
-import { Diya, cleanMessage, sessionId, hash } from '../lib/util'
+import { Diya, cleanMessage, cleanName, sessionId, hash } from '../lib/util'
 
 const SAMPLE = ['May every home glow with peace.','Health for my family.','Light after darkness.','For my grandmother, who taught me the song.','Kindness for everyone.','New beginnings.','Safe travels home.','Joy, sweets and laughter!']
 const demoDiyas = (): Diya[] => Array.from({ length: 80 }, (_, i) => ({ id: `demo-${i}`, created_at: new Date(Date.now() - i * 6e5).toISOString(),
-  message: i % 3 === 0 ? SAMPLE[i % SAMPLE.length] : null, country_code: ['SR','IN','NL','TT','GY','FJ','MU'][i % 7], anonymous_session_id: 'demo-session', visual_style: Math.floor(hash(String(i)) * 6) }))
+  message: i % 3 === 0 ? SAMPLE[i % SAMPLE.length] : null, country_code: ['SR','IN','NL','TT','GY','FJ','MU'][i % 7], anonymous_session_id: 'demo-session', display_name: i % 4 === 0 ? ['Asha', 'Ravi', 'Mira'][i % 3] : null, visual_style: Math.floor(hash(String(i)) * 6) }))
 
 export function useDiyas() {
   const [diyas, setDiyas] = useState<Diya[]>([])
@@ -41,9 +41,9 @@ export function useDiyas() {
   }, [add])
 
   /** Returns an error message, or null on success. */
-  const light = useCallback(async (message: string, country: string): Promise<string | null> => {
+  const light = useCallback(async (message: string, country: string, name: string, anon: boolean): Promise<string | null> => {
     const msg = cleanMessage(message)
-    const row = { message: msg || null, country_code: country || null, anonymous_session_id: sessionId(), visual_style: Math.floor(Math.random() * 6) }
+    const row = { message: msg || null, country_code: anon ? null : country || null, display_name: anon ? null : cleanName(name) || null, anonymous_session_id: sessionId(), visual_style: Math.floor(Math.random() * 6) }
     if (!supabase) { add({ ...row, id: `local-${crypto.randomUUID()}`, created_at: new Date().toISOString() }); return null }
     const { data, error } = await supabase.from('diyas').insert(row).select().single()
     if (error) return error.message.includes('rate_limit') ? 'You have lit several diyas recently. Please wait a few minutes and try again.' : 'Your diya could not be saved. Check your connection and try again.'
