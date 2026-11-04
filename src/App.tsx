@@ -8,7 +8,7 @@ import WorldMap from './components/WorldMap'
 import LightModal from './components/LightModal'
 import { useDiyas } from './hooks/useDiyas'
 import { hash, countryName, flag, byline } from './lib/util'
-
+import { Analytics } from "@vercel/analytics/react"
 const NAV = [['Installation', '#installation'], ['Map', '#map'], ['Participation', '#world-lights'], ['About', '#about'], ['Diwali', '#meaning'], ['Stories', '#stories'], ['Around the world', '#around'], ['Suriname', '#suriname']]
 const AROUND: [string, string, string][] = [
   ['India', 'Where it began', 'Homes are cleaned, doorsteps painted with rangoli, and rows of clay lamps line every window and wall.'],
@@ -96,6 +96,6 @@ export default function App() {
       <footer className="bg-plum px-5 py-8 text-center text-sm text-cream/70">DEEPOTSAV · Shubh Diwali, Happy Divali, to everyone, everywhere.</footer>
             <AnimatePresence>{open && <LightModal demo={demo} onClose={() => setOpen(false)} onLight={light} />}</AnimatePresence>
 
-      <Analytics />
-    </>)
+       <Analytics />
+      </>)
 }
