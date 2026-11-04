@@ -9,7 +9,7 @@ import LightModal from './components/LightModal'
 import { useDiyas } from './hooks/useDiyas'
 import { hash, countryName, flag, byline } from './lib/util'
 import { Analytics } from "@vercel/analytics/react"
-const NAV = [['Installation', '#installation'], ['Map', '#map'], ['Participation', '#world-lights'], ['About', '#about'], ['Diwali', '#meaning'], ['Stories', '#stories'], ['Around the world', '#around'], ['Suriname', '#suriname']]
+const NAV = [['Stories', '#stories'], ['Installation', '#installation'], ['Map', '#map'], ['Participation', '#world-lights'], ['About', '#about'], ['Diwali', '#meaning'], ['Around the world', '#around'], ['Suriname', '#suriname']]
 const AROUND: [string, string, string][] = [
   ['India', 'Where it began', 'Homes are cleaned, doorsteps painted with rangoli, and rows of clay lamps line every window and wall.'],
   ['Nepal', 'Tihar', 'Five days of lights that honour crows, dogs, cows and the bond between siblings.'],
@@ -47,6 +47,8 @@ export default function App() {
           </div>
         </section>
 
+        <Stories />
+
         <Installation diyas={diyas} status={status} onLight={() => setOpen(true)} />
         <WorldMap diyas={diyas} />
 
@@ -75,8 +77,6 @@ export default function App() {
           <p className="mt-5 text-xl leading-relaxed">Diwali celebrates the victory of light over darkness, knowledge over ignorance, and good over evil. Different traditions tell it through different stories: Rama’s return to Ayodhya, the goddess Lakshmi, the triumph over Narakasura. All of them gather around the same small flame.</p>
           <p className="mt-4 text-xl leading-relaxed">Families clean their homes, share sweets, forgive old quarrels and light diyas, tiny oil lamps that say: you are welcome here.</p></div></section>
 
-        <Stories />
-
         <section id="around" className="bg-plum px-5 py-20"><div className="mx-auto max-w-5xl">
           <h2 className="flex items-center gap-3 font-display text-4xl font-black text-gold sm:text-6xl"><Globe2 className="shrink-0" size={44} />Diwali around the world</h2>
           <div className="mt-10 space-y-5">{AROUND.map(([place, tag, text], i) => (
@@ -94,8 +94,8 @@ export default function App() {
             <div className="mt-8">{cta()}</div></div></section>
       </main>
       <footer className="bg-plum px-5 py-8 text-center text-sm text-cream/70">DEEPOTSAV · Shubh Diwali, Happy Divali, to everyone, everywhere.</footer>
-            <AnimatePresence>{open && <LightModal demo={demo} onClose={() => setOpen(false)} onLight={light} />}</AnimatePresence>
+          <AnimatePresence>{open && <LightModal demo={demo} onClose={() => setOpen(false)} onLight={light} />}</AnimatePresence>
 
-       <Analytics />
-      </>)
+      <Analytics />
+    </>)
 }
