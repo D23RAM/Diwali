@@ -23,12 +23,12 @@ export default function LightModal({ onClose, onLight, demo }: { onClose: () => 
           <form className="mt-4" onSubmit={e => { e.preventDefault(); submit() }}>
             <h2 id="mt" className="text-center font-display text-2xl font-black">What light do you want to bring into the world?</h2>
             <fieldset className="mt-4"><legend className="text-sm font-medium">Should your wish be shown?</legend>
-              <div className="mt-1 grid grid-cols-2 gap-2">{[{ v: false, t: 'Show my wish', s: 'Wish, name and country are shown' }, { v: true, t: "Don't show my wish", s: 'Your diya glows without a wish' }].map(o => (
+              <div className="mt-1 grid grid-cols-2 gap-2">{[{ v: false, t: 'Show my wish', s: 'Shown on the map and wish list' }, { v: true, t: 'Keep it private', s: 'Saved, but not shown to anyone' }].map(o => (
                 <label key={String(o.v)} className={`cursor-pointer rounded-2xl border-2 p-3 text-sm focus-within:outline focus-within:outline-2 focus-within:outline-royal ${anon === o.v ? 'border-saffron bg-saffron/15' : 'border-royal/30'}`}>
                   <input type="radio" name="vis" className="sr-only" checked={anon === o.v} onChange={() => setAnon(o.v)} /><b className="block">{o.t}</b>{o.s}</label>))}</div></fieldset>
-            {!anon ? <><label className="mt-4 block text-sm font-medium" htmlFor="msg">Your wish (optional)</label>
+            <><label className="mt-4 block text-sm font-medium" htmlFor="msg">Your wish (optional)</label>
             <textarea id="msg" value={msg} onChange={e => setMsg(e.target.value)} maxLength={280} rows={3} placeholder="Peace, health, a friend’s return home…" className="mt-1 w-full rounded-2xl border-2 border-royal/30 bg-white p-3 focus:border-saffron" />
-            <p className="text-right text-xs text-royal">{msg.length}/280</p></> : <p className="mt-3 rounded-2xl bg-royal/10 p-3 text-sm">Your diya will glow without a wish. Nothing you write is saved or shown. You can still pick a country to place it on the map.</p>}
+            <p className="text-right text-xs text-royal">{msg.length}/280</p></>{anon && <p className="mt-3 rounded-2xl bg-royal/10 p-3 text-sm">Your wish is saved privately. It won’t appear on the map or in the wish list, and your diya will glow without a message.</p>}
             
             {!anon && <><label className="mt-3 block text-sm font-medium" htmlFor="nm">First name (optional)</label>
               <input id="nm" value={name} onChange={e => setName(e.target.value)} maxLength={40} className="mt-1 w-full rounded-2xl border-2 border-royal/30 bg-white p-3 focus:border-saffron" /></>}

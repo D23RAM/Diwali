@@ -43,8 +43,13 @@ export function useDiyas() {
   /** Returns an error message, or null on success. */
   const light = useCallback(async (message: string, country: string, name: string, anon: boolean): Promise<string | null> => {
     const msg = cleanMessage(message)
-    const row = { message: anon ? null : msg || null, country_code: country || null, display_name: anon ? null : cleanName(name) || null, anonymous_session_id: sessionId(), visual_style: Math.floor(Math.random() * 6) }
+    const sid = sessionId(); const id = crypto.randomUUID(); const cc = country || null
+    const row = { id, message: anon ? null : msg || null, country_code: anon ? null : cc, display_name: anon ? null : cleanName(name) || null, anonymous_session_id: sid, visual_style: Math.floor(Math.random() * 6) }
     if (!supabase) { add({ ...row, id: `local-${crypto.randomUUID()}`, created_at: new Date().toISOString() }); return null }
+    if (anon && (msg || cc)) {
+      const { error: pe } = await supabase.from('private_wishes').insert({ diya_id: id, message: msg || null, country_code: cc, anonymous_session_id: sid })
+      if (pe) return pe.message.includes('rate_limit') ? 'You have lit several diyas recently. Please wait a few minutes and try again.' : 'Your private wish could not be saved. Check your connection and try again.'
+    }
     const { data, error } = await supabase.from('diyas').insert(row).select().single()
     if (error) return error.message.includes('rate_limit') ? 'You have lit several diyas recently. Please wait a few minutes and try again.' : 'Your diya could not be saved. Check your connection and try again.'
     add(data as Diya); return null
