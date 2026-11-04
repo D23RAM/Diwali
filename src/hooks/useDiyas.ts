@@ -43,7 +43,7 @@ export function useDiyas() {
   /** Returns an error message, or null on success. */
   const light = useCallback(async (message: string, country: string, name: string, anon: boolean): Promise<string | null> => {
     const msg = cleanMessage(message)
-    const row = { message: msg || null, country_code: anon ? null : country || null, display_name: anon ? null : cleanName(name) || null, anonymous_session_id: sessionId(), visual_style: Math.floor(Math.random() * 6) }
+    const row = { message: anon ? null : msg || null, country_code: country || null, display_name: anon ? null : cleanName(name) || null, anonymous_session_id: sessionId(), visual_style: Math.floor(Math.random() * 6) }
     if (!supabase) { add({ ...row, id: `local-${crypto.randomUUID()}`, created_at: new Date().toISOString() }); return null }
     const { data, error } = await supabase.from('diyas').insert(row).select().single()
     if (error) return error.message.includes('rate_limit') ? 'You have lit several diyas recently. Please wait a few minutes and try again.' : 'Your diya could not be saved. Check your connection and try again.'
