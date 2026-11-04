@@ -15,7 +15,7 @@ const NAV = [['Installation', '#installation'], ['Map', '#map'], ['Participation
 const AROUND: [string, string, string][] = [
   ['India', 'Where it began', 'Homes are cleaned, doorsteps painted with rangoli, and rows of clay lamps line every window and wall.'],
   ['Nepal', 'Tihar', 'Five days of lights that honour crows, dogs, cows and the bond between siblings.'],
-  ['Trinidad & Tobago', 'Divali Nagar', 'Thousands of deyas glow in villages and cities, alongside sweet shops and concerts.'],
+  ['Trinidad & Tobago', 'Divali Nagar', 'Thousands of diyas glow in villages and cities, alongside sweet shops and concerts.'],
   ['Fiji & Mauritius', 'Islands of light', 'Families who crossed the seas carried the festival with them and made it a shared national joy.'],
   ['Singapore & the UK', 'Streets in lights', 'Little India and Leicester light up with markets, music and street illuminations.']]
 
@@ -85,8 +85,8 @@ export default function App() {
 
         <section id="suriname" className="bg-gradient-to-br from-saffron to-pink px-5 py-20 text-plum"><div className="mx-auto max-w-3xl">
           <h2 className="font-display text-4xl font-black sm:text-6xl">Divali in Suriname</h2>
-          <p className="mt-5 text-xl leading-relaxed">Hindustani Surinamers trace their roots to the contract labourers who arrived from India starting in 1873. They kept the lamps burning across generations. Today, Divali in Paramaribo and across the districts means deyas along the windowsills, family tables full of sweets, and neighbours of every background stopping to admire the glow.</p>
-          <p className="mt-4 flex items-center gap-2 text-xl font-bold"><Heart size={22} />Suriname is one of the many places this installation is built for. Add your deya to the sky.</p>
+          <p className="mt-5 text-xl leading-relaxed">Hindustani Surinamers trace their roots to the contract labourers who arrived from India starting in 1873. They kept the lamps burning across generations. Today, Divali in Paramaribo and across the districts means diyas along the windowsills, family tables full of sweets, and neighbours of every background stopping to admire the glow.</p>
+          <p className="mt-4 flex items-center gap-2 text-xl font-bold"><Heart size={22} />Suriname is one of the many places this installation is built for. Add your diya to the sky.</p>
           <div className="mt-6">{cta('!bg-plum !text-gold !shadow-none')}</div></div></section>
 
         <section className="relative overflow-hidden px-5 py-28 text-center"><Twinkles />
