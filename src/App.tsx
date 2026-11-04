@@ -3,19 +3,17 @@ import { AnimatePresence } from 'framer-motion'
 import { Flame, Globe2, Sparkles, Heart } from 'lucide-react'
 import Diya from './components/Diya'
 import Installation from './components/Installation'
+import Stories from './components/Stories'
 import WorldMap from './components/WorldMap'
 import LightModal from './components/LightModal'
 import { useDiyas } from './hooks/useDiyas'
-import { hash, countryName, flag } from './lib/util'
-import { Analytics } from "@vercel/analytics/react"
+import { hash, countryName, flag, byline } from './lib/util'
 
-// Inside your App component:/>
-
-const NAV = [['Installation', '#installation'], ['Map', '#map'], ['Participation', '#world-lights'], ['About', '#about'], ['Diwali', '#meaning'], ['Around the world', '#around'], ['Suriname', '#suriname']]
+const NAV = [['Installation', '#installation'], ['Map', '#map'], ['Participation', '#world-lights'], ['About', '#about'], ['Diwali', '#meaning'], ['Stories', '#stories'], ['Around the world', '#around'], ['Suriname', '#suriname']]
 const AROUND: [string, string, string][] = [
   ['India', 'Where it began', 'Homes are cleaned, doorsteps painted with rangoli, and rows of clay lamps line every window and wall.'],
   ['Nepal', 'Tihar', 'Five days of lights that honour crows, dogs, cows and the bond between siblings.'],
-  ['Trinidad & Tobago', 'Divali Nagar', 'Thousands of diyas glow in villages and cities, alongside sweet shops and concerts.'],
+  ['Trinidad & Tobago', 'Divali Nagar', 'Thousands of deyas glow in villages and cities, alongside sweet shops and concerts.'],
   ['Fiji & Mauritius', 'Islands of light', 'Families who crossed the seas carried the festival with them and made it a shared national joy.'],
   ['Singapore & the UK', 'Streets in lights', 'Little India and Leicester light up with markets, music and street illuminations.']]
 
@@ -63,7 +61,7 @@ export default function App() {
                   <p className="mt-2 text-xl" aria-label="Country flags">{countries.slice(0, 24).map(c => <span key={c} title={countryName(c)}>{flag(c)} </span>)}</p></div></div>
               <div className="rounded-[2rem] bg-cream p-6"><h3 className="font-display text-2xl font-black">Recent wishes</h3>
                 {wishes.length === 0 ? <p className="mt-3">No wishes yet. Light a diya and share the first one.</p> :
-                  <ul className="mt-3 space-y-3">{wishes.map(w => <li key={w.id} className="border-l-4 border-saffron pl-3"><p className="font-medium">“{w.message}”</p><p className="text-sm text-royal">{w.country_code ? `${flag(w.country_code)} ${countryName(w.country_code)}` : 'Somewhere on Earth'}</p></li>)}</ul>}</div>
+                  <ul className="mt-3 space-y-3">{wishes.map(w => <li key={w.id} className="border-l-4 border-saffron pl-3"><p className="font-medium">“{w.message}”</p><p className="text-sm text-royal">{byline(w)}</p></li>)}</ul>}</div>
             </div></div>
         </section>
 
@@ -77,6 +75,8 @@ export default function App() {
           <p className="mt-5 text-xl leading-relaxed">Diwali celebrates the victory of light over darkness, knowledge over ignorance, and good over evil. Different traditions tell it through different stories: Rama’s return to Ayodhya, the goddess Lakshmi, the triumph over Narakasura. All of them gather around the same small flame.</p>
           <p className="mt-4 text-xl leading-relaxed">Families clean their homes, share sweets, forgive old quarrels and light diyas, tiny oil lamps that say: you are welcome here.</p></div></section>
 
+        <Stories />
+
         <section id="around" className="bg-plum px-5 py-20"><div className="mx-auto max-w-5xl">
           <h2 className="flex items-center gap-3 font-display text-4xl font-black text-gold sm:text-6xl"><Globe2 className="shrink-0" size={44} />Diwali around the world</h2>
           <div className="mt-10 space-y-5">{AROUND.map(([place, tag, text], i) => (
@@ -85,8 +85,8 @@ export default function App() {
 
         <section id="suriname" className="bg-gradient-to-br from-saffron to-pink px-5 py-20 text-plum"><div className="mx-auto max-w-3xl">
           <h2 className="font-display text-4xl font-black sm:text-6xl">Divali in Suriname</h2>
-          <p className="mt-5 text-xl leading-relaxed">Hindustani Surinamers trace their roots to the contract labourers who arrived from India starting in 1873. They kept the lamps burning across generations. Today, Divali in Paramaribo and across the districts means diyas along the windowsills, family tables full of sweets, and neighbours of every background stopping to admire the glow.</p>
-          <p className="mt-4 flex items-center gap-2 text-xl font-bold"><Heart size={22} />Suriname is one of the many places this installation is built for. Add your diya to the sky.</p>
+          <p className="mt-5 text-xl leading-relaxed">Hindustani Surinamers trace their roots to the contract labourers who arrived from India starting in 1873. They kept the lamps burning across generations. Today, Divali in Paramaribo and across the districts means deyas along the windowsills, family tables full of sweets, and neighbours of every background stopping to admire the glow.</p>
+          <p className="mt-4 flex items-center gap-2 text-xl font-bold"><Heart size={22} />Suriname is one of the many places this installation is built for. Add your deya to the sky.</p>
           <div className="mt-6">{cta('!bg-plum !text-gold !shadow-none')}</div></div></section>
 
         <section className="relative overflow-hidden px-5 py-28 text-center"><Twinkles />
@@ -94,14 +94,8 @@ export default function App() {
             <div className="mt-8">{cta()}</div></div></section>
       </main>
       <footer className="bg-plum px-5 py-8 text-center text-sm text-cream/70">DEEPOTSAV · Shubh Diwali, Happy Divali, to everyone, everywhere.</footer>
-           <AnimatePresence>{open && <LightModal demo={demo} onClose={() => setOpen(false)} onLight={light} />}</AnimatePresence>
+            <AnimatePresence>{open && <LightModal demo={demo} onClose={() => setOpen(false)} onLight={light} />}</AnimatePresence>
 
       <Analytics />
     </>)
-
-
-
-
-
 }
-
